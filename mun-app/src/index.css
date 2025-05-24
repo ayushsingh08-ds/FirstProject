@@ -1,3 +1,9 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
 :root {
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
@@ -58,14 +64,11 @@ button:focus-visible {
 
 html, body, #root {
   height: 100%;
-  min-height: 100vh;
-  width: 100vw;
-  background: #2a0e14; /* Match your theme */
+  width: 100%;
   margin: 0;
   padding: 0;
-  display: flex;
-  justify-content: center; /* Center horizontally */
-  align-items: center; /* Center vertically */
+  background: #2a0e14; /* Match your theme */
+  overflow-x: hidden; /* Prevent horizontal scrolling */
 }
 
 .container {

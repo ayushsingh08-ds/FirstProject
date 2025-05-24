@@ -3,17 +3,16 @@ import styled, { useTheme } from "styled-components";
 
 // Section wrapper
 const Section = styled.section`
-  width: 100vw;
+  width: calc(100vw - 80px); /* Subtract navbar width */
   min-height: 100vh;
-  padding: 0;
-  margin: 0;
+  margin-left: 80px; /* Offset for navbar */
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   background: ${({ bg }) => bg || "transparent"};
   transition: background 0.3s;
-  border: none; /* Remove debugging border */
+  padding: 0; /* Remove extra padding */
 `;
 
 const GlassCard = styled.div`
@@ -149,27 +148,109 @@ const ContactCard = styled.div`
   }
 `;
 
+const Navbar = styled.nav`
+  width: 80px; /* Fixed width for the vertical navbar */
+  height: 100vh; /* Full height */
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 999;
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.6));
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0; /* Remove extra padding */
+  box-shadow: 2px 0 12px rgba(0, 0, 0, 0.2);
+`;
+
+const Logo = styled.img`
+  width: 50px;
+  height: 50px;
+  margin-bottom: 1rem;
+`;
+
+const NavLinks = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  align-items: center;
+`;
+
+const NavLink = styled.button`
+  background: none;
+  border: none;
+  color: ${({ theme }) => theme.colors.text};
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-align: center;
+  cursor: pointer;
+  transition: color 0.2s, transform 0.2s;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.3rem;
+
+  &:hover {
+    color: ${({ theme }) => theme.colors.accent};
+    transform: scale(1.1);
+  }
+
+  svg {
+    font-size: 1.5rem;
+  }
+`;
+
 export default function Home() {
   const theme = useTheme();
-  // Section refs for scrolling
   const aboutRef = useRef(null);
   const eventsRef = useRef(null);
   const galleryRef = useRef(null);
   const contactRef = useRef(null);
 
-  // Navigation scroll
   const scrollTo = ref => ref.current.scrollIntoView({ behavior: "smooth" });
 
   return (
-        <div style={{
-      minHeight: "100vh",
-      minWidth: "100vw",
-      width: "100vw",
-      background: theme.colors.bg,
-      display: "flex",
-      flexDirection: "column"
-    }}>
-    <div style={{ background: theme.colors.bg, margin: 0, padding: 0 }}>
+    <div style={{ minHeight: "100vh", minWidth: "100vw", width: "100vw", background: theme.colors.bg, margin: 0, padding: 0 }}>
+    
+
+      {/* Navbar */}
+      <Navbar>
+        {/* Logo */}
+        <Logo src="/logo.png" alt="MUN Logo" />
+
+        {/* Navigation Links */}
+        <NavLinks>
+          <NavLink theme={theme} onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}>
+            <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 16">
+              <path d="M8 3.293l6 6V13a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1v-3.707l6-6zM7 1.5a1 1 0 0 1 2 0v1.293l6.707 6.707A1 1 0 0 1 15 10.5V13a3 3 0 0 1-3 3H4a3 3 0 0 1-3-3v-2.5a1 1 0 0 1 .293-.707L7 2.793V1.5z" />
+            </svg>
+            Home
+          </NavLink>
+          <NavLink theme={theme} onClick={() => scrollTo(aboutRef)}>
+            <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 16">
+              <path d="M8 1a7 7 0 1 0 0 14A7 7 0 0 0 8 1zm0 12a5 5 0 1 1 0-10A5 5 0 0 1 8 13z" />
+              <path d="M8 4a.5.5 0 0 1 .5.5v3a.5.5 0 0 1-1 0v-3A.5.5 0 0 1 8 4zm0 5a.5.5 0 1 1 0 1 .5.5 0 0 1 0-1z" />
+            </svg>
+            About
+          </NavLink>
+          <NavLink theme={theme} onClick={() => scrollTo(contactRef)}>
+            <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 16">
+              <path d="M3 1a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3a2 2 0 0 0-2-2H3zm0 1h10a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3a1 1 0 0 1 1-1z" />
+              <path d="M8 4a.5.5 0 0 1 .5.5v3a.5.5 0 0 1-1 0v-3A.5.5 0 0 1 8 4zm0 5a.5.5 0 1 1 0 1 .5.5 0 0 1 0-1z" />
+            </svg>
+            Contact
+          </NavLink>
+          <NavLink theme={theme}>
+            <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 16">
+              <path d="M8 0a8 8 0 1 0 8 8A8 8 0 0 0 8 0zm0 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14z" />
+              <path d="M8 4a.5.5 0 0 1 .5.5v3a.5.5 0 0 1-1 0v-3A.5.5 0 0 1 8 4zm0 5a.5.5 0 1 1 0 1 .5.5 0 0 1 0-1z" />
+            </svg>
+            Theme
+          </NavLink>
+        </NavLinks>
+      </Navbar>
+
       {/* Hero/Welcome Section */}
       <Section>
         <GlassCard>
@@ -185,6 +266,7 @@ export default function Home() {
             <NavButton onClick={() => scrollTo(contactRef)}>Contact</NavButton>
           </NavRow>
         </GlassCard>
+        {/* Add the 3D Globe */}
       </Section>
 
       {/* About Section */}
@@ -238,7 +320,5 @@ export default function Home() {
         </ContactCard>
       </Section>
     </div>
-    </div>
-
   );
 }
