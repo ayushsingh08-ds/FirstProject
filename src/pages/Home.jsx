@@ -13,6 +13,12 @@ const Section = styled.section`
   background: ${({ bg }) => bg || "transparent"};
   transition: background 0.3s;
   padding: 0; /* Remove extra padding */
+
+  @media (max-width: 768px) { /* Tablet screens */
+    margin-left: 0; /* Remove navbar offset */
+    width: 100vw;
+    padding: 1rem;
+  }
 `;
 
 const GlassCard = styled.div`
@@ -23,17 +29,47 @@ const GlassCard = styled.div`
   padding: 2.5rem 3rem 2rem 3rem;
   color: ${({ theme }) => theme.colors.text};
   text-align: center;
-  max-width: 560px;
+  max-width: 600px;
   margin: 0 auto;
-  margin-bottom: 2.5rem;
+  margin-bottom: 8rem;
   border: none; /* Remove debugging border */
 
-  @media (max-width: ${({ theme }) => theme.breakpoints.tablet}) {
-    padding: 2rem 1.5rem 1.5rem 1.5rem;
-    max-width: 90vw;
+  @media (max-width: 768px) { /* Tablet screens */
+    padding: 2rem 1.5rem;
+    max-width: 90%;
   }
-  @media (max-width: ${({ theme }) => theme.breakpoints.mobile}) {
-    padding: 1.3rem 0.8rem 0.8rem 0.8rem;
+
+  @media (max-width: 480px) { /* Mobile screens */
+    padding: 1.5rem 1rem;
+    max-width: 95%;
+  }
+`;
+
+const GlassCardHome = styled.div`
+  background: ${({ theme }) => theme.colors.card};
+  border-radius: 0 0 50% 50%; /* Proper semi-circle shape */
+  box-shadow: ${({ theme }) => theme.colors.cardShadow};
+  backdrop-filter: blur(12px);
+  padding: 3rem 4rem; /* Adjust padding for content */
+  color: ${({ theme }) => theme.colors.text};
+  text-align: center;
+  width: 100%; /* Full width for alignment */
+  height: 300px; /* Adjust height for semi-circle */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  z-index: 2; /* Ensure it stays above the next section */
+
+  @media (max-width: 768px) { /* Tablet screens */
+    padding: 2.5rem 2rem;
+    height: 250px; /* Adjust height for smaller screens */
+  }
+
+  @media (max-width: 480px) { /* Mobile screens */
+    padding: 2rem 1.5rem;
+    height: 200px; /* Adjust height for mobile */
   }
 `;
 
@@ -43,7 +79,12 @@ const BigTitle = styled.h1`
   letter-spacing: 2px;
   margin-bottom: 0.7em;
   font-weight: 700;
-  @media (max-width: ${({ theme }) => theme.breakpoints.mobile}) {
+
+  @media (max-width: 768px) { /* Tablet screens */
+    font-size: 1.8rem;
+  }
+
+  @media (max-width: 480px) { /* Mobile screens */
     font-size: 1.4rem;
   }
 `;
@@ -54,8 +95,13 @@ const SectionTitle = styled.h2`
   margin-bottom: 1.5rem;
   margin-top: 0.5rem;
   font-weight: 600;
-  @media (max-width: ${({ theme }) => theme.breakpoints.mobile}) {
-    font-size: 1.1rem;
+
+  @media (max-width: 768px) { /* Tablet screens */
+    font-size: 1.6rem;
+  }
+
+  @media (max-width: 480px) { /* Mobile screens */
+    font-size: 1.2rem;
   }
 `;
 
@@ -64,8 +110,13 @@ const About = styled.p`
   margin-bottom: 1.4rem;
   font-weight: 400;
   font-size: 1.1rem;
-  @media (max-width: ${({ theme }) => theme.breakpoints.mobile}) {
+
+  @media (max-width: 768px) { /* Tablet screens */
     font-size: 1rem;
+  }
+
+  @media (max-width: 480px) { /* Mobile screens */
+    font-size: 0.9rem;
   }
 `;
 
@@ -149,19 +200,71 @@ const ContactCard = styled.div`
 `;
 
 const Navbar = styled.nav`
-  width: 80px; /* Fixed width for the vertical navbar */
-  height: 100vh; /* Full height */
+  width: 100%;
+  height: 60px;
   position: fixed;
   top: 0;
   left: 0;
   z-index: 999;
-  background: linear-gradient(180deg, rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.6));
+  background: ${({ theme }) => theme.colors.navbarBg || "#7a1b3d"}; /* Reddish background */
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: space-between;
-  padding: 0; /* Remove extra padding */
-  box-shadow: 2px 0 12px rgba(0, 0, 0, 0.2);
+  padding: 0 2rem;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.2);
+  opacity: ${({ isVisible }) => (isVisible ? 1 : 0)};
+  transition: opacity 1s ease-in-out;
+
+  @media (max-width: 768px) { /* Tablet screens */
+    padding: 0 1rem;
+  }
+
+  @media (max-width: 480px) { /* Mobile screens */
+    flex-direction: column;
+    height: auto;
+    padding: 0.5rem 1rem;
+  }
+`;
+
+const NavLogo = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+
+  img {
+    width: 40px;
+    height: 40px;
+    transition: transform 0.3s ease-in-out;
+  }
+
+  span {
+    color: ${({ theme }) => theme.colors.text || "#ffd5db"}; /* Light pink text */
+    font-size: 1.2rem;
+    font-weight: bold;
+    letter-spacing: 1px;
+  }
+`;
+
+const NavLinks = styled.div`
+  display: flex;
+  gap: 2rem;
+
+  a {
+    color: ${({ theme }) => theme.colors.text || "#ffd5db"}; /* Light pink text */
+    font-size: 1rem;
+    font-weight: 500;
+    text-decoration: none;
+    transition: color 0.2s;
+
+    &:hover {
+      color: ${({ theme }) => theme.colors.accent || "#ffcccb"}; /* Highlight color */
+    }
+  }
+
+  @media (max-width: 480px) { /* Mobile screens */
+    flex-direction: column;
+    gap: 1rem;
+  }
 `;
 
 const Logo = styled.img`
@@ -170,7 +273,7 @@ const Logo = styled.img`
   margin-bottom: 1rem;
 `;
 
-const NavLinks = styled.div`
+const NavLinksOld = styled.div`
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
@@ -201,8 +304,56 @@ const NavLink = styled.button`
   }
 `;
 
+const FadeWrapper = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: ${({ theme }) => theme.colors.bg || "#002855"}; /* Match site background */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  opacity: ${({ isVisible }) => (isVisible ? 1 : 0)};
+  transition: opacity 1s ease-in-out;
+  pointer-events: ${({ isVisible }) => (isVisible ? "all" : "none")};
+
+  img {
+    width: 100px;
+    height: 100px;
+    animation: fadeInOut 2s ease-in-out;
+  }
+
+  @keyframes fadeInOut {
+    0% {
+      opacity: 0;
+      transform: scale(0.8);
+    }
+    50% {
+      opacity: 1;
+      transform: scale(1);
+    }
+    100% {
+      opacity: 0;
+      transform: scale(0.8);
+    }
+  }
+`;
+
 export default function Home() {
   const theme = useTheme();
+  const [isLogoVisible, setIsLogoVisible] = React.useState(true);
+  const [isNavbarVisible, setIsNavbarVisible] = React.useState(false);
+
+  React.useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsLogoVisible(false);
+      setIsNavbarVisible(true); // Show navbar after logo fades out
+    }, 2000); // Show the logo for 2 seconds
+    return () => clearTimeout(timer);
+  }, []);
+
   const aboutRef = useRef(null);
   const eventsRef = useRef(null);
   const galleryRef = useRef(null);
@@ -211,114 +362,87 @@ export default function Home() {
   const scrollTo = ref => ref.current.scrollIntoView({ behavior: "smooth" });
 
   return (
-    <div style={{ minHeight: "100vh", minWidth: "100vw", width: "100vw", background: theme.colors.bg, margin: 0, padding: 0 }}>
-    
+    <>
+      {/* Fade-In/Fade-Out Logo */}
+      <FadeWrapper isVisible={isLogoVisible}>
+        <img src="/logo.png" alt="MUN Logo" />
+      </FadeWrapper>
 
       {/* Navbar */}
-      <Navbar>
-        {/* Logo */}
-        <Logo src="/logo.png" alt="MUN Logo" />
-
-        {/* Navigation Links */}
+      <Navbar isVisible={isNavbarVisible}>
+        <NavLogo>
+          <img src="/logo.png" alt="MUN Logo" />
+          <span>DSU MUNSOC</span>
+        </NavLogo>
         <NavLinks>
-          <NavLink theme={theme} onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}>
-            <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 16">
-              <path d="M8 3.293l6 6V13a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1v-3.707l6-6zM7 1.5a1 1 0 0 1 2 0v1.293l6.707 6.707A1 1 0 0 1 15 10.5V13a3 3 0 0 1-3 3H4a3 3 0 0 1-3-3v-2.5a1 1 0 0 1 .293-.707L7 2.793V1.5z" />
-            </svg>
-            Home
-          </NavLink>
-          <NavLink theme={theme} onClick={() => scrollTo(aboutRef)}>
-            <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 16">
-              <path d="M8 1a7 7 0 1 0 0 14A7 7 0 0 0 8 1zm0 12a5 5 0 1 1 0-10A5 5 0 0 1 8 13z" />
-              <path d="M8 4a.5.5 0 0 1 .5.5v3a.5.5 0 0 1-1 0v-3A.5.5 0 0 1 8 4zm0 5a.5.5 0 1 1 0 1 .5.5 0 0 1 0-1z" />
-            </svg>
-            About
-          </NavLink>
-          <NavLink theme={theme} onClick={() => scrollTo(contactRef)}>
-            <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 16">
-              <path d="M3 1a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3a2 2 0 0 0-2-2H3zm0 1h10a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3a1 1 0 0 1 1-1z" />
-              <path d="M8 4a.5.5 0 0 1 .5.5v3a.5.5 0 0 1-1 0v-3A.5.5 0 0 1 8 4zm0 5a.5.5 0 1 1 0 1 .5.5 0 0 1 0-1z" />
-            </svg>
-            Contact
-          </NavLink>
-          <NavLink theme={theme}>
-            <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 16">
-              <path d="M8 0a8 8 0 1 0 8 8A8 8 0 0 0 8 0zm0 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14z" />
-              <path d="M8 4a.5.5 0 0 1 .5.5v3a.5.5 0 0 1-1 0v-3A.5.5 0 0 1 8 4zm0 5a.5.5 0 1 1 0 1 .5.5 0 0 1 0-1z" />
-            </svg>
-            Theme
-          </NavLink>
+          <a href="#home">Home</a>
+          <a href="#dsmun">DSUMUN-II</a>
+          <a href="#events">Events</a>
+          <a href="#secretariat">The Secretariat</a>
+          <a href="#contact">Contact</a> {/* New Contact Link */}
         </NavLinks>
       </Navbar>
 
-      {/* Hero/Welcome Section */}
-      <Section>
-        <GlassCard>
-          <BigTitle>Welcome to the MUN Society Portal!</BigTitle>
-          <About>
-            Explore the world of Model United Nations at our university.<br />
-            Stay informed about upcoming events, view our gallery of achievements, or contact our team.
-          </About>
-          <NavRow>
-            <NavButton onClick={() => scrollTo(aboutRef)}>About</NavButton>
-            <NavButton onClick={() => scrollTo(eventsRef)}>Events</NavButton>
-            <NavButton onClick={() => scrollTo(galleryRef)}>Gallery</NavButton>
-            <NavButton onClick={() => scrollTo(contactRef)}>Contact</NavButton>
-          </NavRow>
-        </GlassCard>
-        {/* Add the 3D Globe */}
-      </Section>
+      {/* Main Content */}
+      <div style={{ minHeight: "100vh", minWidth: "100vw", width: "100vw", background: theme.colors.bg, margin: 0, padding: 0 }}>
+        {/* Hero Section */}
+        <Section id="home">
+          <GlassCardHome>
+            <BigTitle>Welcome to the MUN Society Portal!</BigTitle>
+            <About>
+              Explore the world of Model United Nations at our university.<br />
+              Stay informed about upcoming events, view our gallery of achievements, or contact our team.
+            </About>
+          </GlassCardHome>
+        </Section>
 
-      {/* About Section */}
-      <Section ref={aboutRef} bg="#3c0d22">
-        <SectionTitle>About Us</SectionTitle>
-        <GlassCard>
-          <About>
-            Established in 2023, our Model United Nations society is dedicated to empowering students with global awareness and leadership skills. Our mission centers on diplomacy, research, and debate, preparing future leaders to tackle real-world challenges.
-          </About>
-        </GlassCard>
-      </Section>
+        {/* Other Sections */}
+        <Section id="dsmun" bg="#3c0d22">
+          <SectionTitle>DSUMUN-II</SectionTitle>
+          <GlassCard>
+            <About>
+              Details about DSUMUN-II, including dates, committees, and registration information.
+            </About>
+          </GlassCard>
+        </Section>
 
-      {/* Events Section */}
-      <Section ref={eventsRef} bg="#571229">
-        <SectionTitle>Events</SectionTitle>
-        <GlassCard>
-          <About>
-            <b>Upcoming: MUN Edition III (Sept 2025)</b><br />
-            - International conference simulation<br />
-            - Crisis committees, workshops, and guest speakers<br />
-            <br />
-            <b>Past Highlights:</b><br />
-            - Edition II: 200+ delegates, 5 committees<br />
-            - Guest keynote: Ex-UN diplomat<br />
-            - Social evenings, awards, and more!
-          </About>
-        </GlassCard>
-      </Section>
+        <Section id="events" bg="#571229">
+          <SectionTitle>Events</SectionTitle>
+          <GlassCard>
+            <About>
+              Information about upcoming and past events organized by the MUN Society.
+            </About>
+          </GlassCard>
+        </Section>
 
-      {/* Gallery Section */}
-      <Section ref={galleryRef} bg="#6a1632">
-        <SectionTitle>Gallery</SectionTitle>
-        <GalleryGrid>
-          <GalleryItem>🏅 Best Delegate 2025<br />Ananya Sharma</GalleryItem>
-          <GalleryItem>🌍 Opening Ceremony<br />Edition II</GalleryItem>
-          <GalleryItem>🎤 Guest Speaker<br />Mr. A. Menon (UN)</GalleryItem>
-          <GalleryItem>🤝 Social Night</GalleryItem>
-        </GalleryGrid>
-      </Section>
+        <Section id="secretariat" bg="#6a1632">
+          <SectionTitle>The Secretariat</SectionTitle>
+          <GlassCard>
+            <About>
+              Meet the team behind DSU MUNSOC, including faculty advisors and student leaders.
+            </About>
+          </GlassCard>
+        </Section>
 
-      {/* Contact Section */}
-      <Section ref={contactRef} bg="#7a1b3d">
-        <SectionTitle>Contact</SectionTitle>
-        <ContactCard>
-          <div><b>Email:</b> mun.society@example.com</div>
-          <div><b>Instagram:</b> @mun_society_univ</div>
-          <div><b>Faculty Advisor:</b> Dr. R. Sen</div>
-          <div style={{ marginTop: "1.1rem" }}>
-            <NavButton as="a" href="mailto:mun.society@example.com">Email Us</NavButton>
-          </div>
-        </ContactCard>
-      </Section>
-    </div>
+        {/* Contact Section */}
+        <Section id="contact" bg="#3c0d22">
+          <SectionTitle>Contact Us</SectionTitle>
+          <ContactCard>
+            <p>
+              Have questions or want to get in touch? Reach out to us!
+            </p>
+            <p>
+              <strong>Email:</strong> contact@dsumunsoc.com
+            </p>
+            <p>
+              <strong>Phone:</strong> +91-123-456-7890
+            </p>
+            <p>
+              <strong>Address:</strong> DSU Campus, Model United Nations Society, Bangalore, India
+            </p>
+          </ContactCard>
+        </Section>
+      </div>
+    </>
   );
 }
