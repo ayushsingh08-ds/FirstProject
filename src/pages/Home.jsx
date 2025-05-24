@@ -1,5 +1,6 @@
 import React, { useRef } from "react";
 import styled, { useTheme } from "styled-components";
+import { FaUserCircle } from "react-icons/fa"; // Importing an open-source SVG icon
 
 // Section wrapper
 const Section = styled.section`
@@ -341,6 +342,52 @@ const FadeWrapper = styled.div`
   }
 `;
 
+const CardGrid = styled.div`
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1.5rem;
+  justify-items: center;
+  margin-top: 2rem;
+`;
+
+const Card = styled.div`
+  background: ${({ theme }) => theme.colors.card};
+  border-radius: 15px;
+  padding: 1rem;
+  width: 200px;
+  text-align: center;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  cursor: pointer;
+
+  &:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+  }
+`;
+
+const Avatar = styled.div`
+  font-size: 4rem; /* Adjust size of the SVG */
+  color: ${({ theme }) => theme.colors.accent || "#ffcccb"};
+  margin-bottom: 1rem;
+  transition: transform 0.3s ease;
+
+  ${Card}:hover & {
+    transform: scale(1.1);
+  }
+`;
+
+const Name = styled.h3`
+  font-size: 1.2rem;
+  color: ${({ theme }) => theme.colors.text};
+  margin-bottom: 0.5rem;
+`;
+
+const Role = styled.p`
+  font-size: 0.9rem;
+  color: ${({ theme }) => theme.colors.textSecondary || "#ffd5db"};
+`;
+
 export default function Home() {
   const theme = useTheme();
   const [isLogoVisible, setIsLogoVisible] = React.useState(true);
@@ -417,11 +464,36 @@ export default function Home() {
 
         <Section id="secretariat" bg="#6a1632">
           <SectionTitle>The Secretariat</SectionTitle>
-          <GlassCard>
-            <About>
-              Meet the team behind DSU MUNSOC, including faculty advisors and student leaders.
-            </About>
-          </GlassCard>
+          <CardGrid>
+            <Card>
+              <Avatar>
+                <FaUserCircle />
+              </Avatar>
+              <Name>John Doe</Name>
+              <Role>President</Role>
+            </Card>
+            <Card>
+              <Avatar>
+                <FaUserCircle />
+              </Avatar>
+              <Name>Jane Smith</Name>
+              <Role>Vice President</Role>
+            </Card>
+            <Card>
+              <Avatar>
+                <FaUserCircle />
+              </Avatar>
+              <Name>Emily Johnson</Name>
+              <Role>Secretary</Role>
+            </Card>
+            <Card>
+              <Avatar>
+                <FaUserCircle />
+              </Avatar>
+              <Name>Michael Brown</Name>
+              <Role>Treasurer</Role>
+            </Card>
+          </CardGrid>
         </Section>
 
         {/* Contact Section */}
